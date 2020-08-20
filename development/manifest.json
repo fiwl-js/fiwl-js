@@ -1,0 +1,6 @@
+{
+    "name" : "FIWL App Test",
+    "icon" : "/icon.svg",
+    "splash" : "/splash.svg",
+    "description" : "This is a FIWL-based app testing"
+}

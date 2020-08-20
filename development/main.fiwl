@@ -1,0 +1,57 @@
+<Stage title="FIWL App Test - Welcome!">
+    <SeriesLayout orientation="vertical">
+        <Label
+            width="container"
+            height="content"
+            text="Welcome!"
+            paddings="16dp"
+            textSize="@style/titleTextSize"
+            textColor="@style/onPrimaryColor"
+            backgroundColor="@style/primaryColor"
+            elevation="8dp"/>
+        <Layout
+            width="container"
+            height="100%"
+            backgroundColor="@color/transparent"
+            alignContents="center">
+            <SeriesLayout
+                width="80%"
+                height="75%"
+                backgroundColor="@color/white"
+                cornerRadius="16dp"
+                elevation="8dp"
+                alignContents="center"
+                paddings="16dp">
+                <Label
+                    width="container"
+                    height="content"
+                    alignText="center"
+                    textSize="@style/displayTextSize">
+                    This is a FIWL Demonstration
+                </Label>
+                <DisplayObject
+                    width="container"
+                    height="2dp"
+                    backgroundColor="@color/darkGrey"
+                    marginVertical="16dp"/>
+                <Label
+                    width="container"
+                    height="content"
+                    alignText="center"
+                    textSize="@style/displayTextSize"
+                    fontType="DancingScript-Regular">
+                    Cool isn't it?
+                </Label>
+            </SeriesLayout>
+        </Layout>
+        <Button id="next_button"
+            text="Let's Go!"
+            alignSelf="center"
+            margins="32dp"/>
+    </SeriesLayout>
+    <event on="ready">
+        this.layout.findContent('next_button').onSelect = (eventData) => {
+            setTimeout(() => alert('it is works!'), 250);
+        }
+    </event>
+</Stage>

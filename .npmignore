@@ -1,0 +1,12 @@
+.vscode
+automation
+development
+node_modules
+src
+webpack
+.gitignore
+fiwl.ts
+index.ts
+index.m.ts
+README.md
+tsconfig.json
