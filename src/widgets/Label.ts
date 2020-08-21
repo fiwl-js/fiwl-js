@@ -350,6 +350,9 @@ function parseTextLines(
 ): TextLine[] {
   let result: TextLine[] = [];
 
+  // Automatically converts non-string type to string
+  if (typeof instance.text != "string") instance.text = String(instance.text);
+
   // Split lines of text and put each of them into object with parameters
   const textLines: string[] = instance.text.replace(/\r/gm, "").split("\n");
   const rulerCtx = instance.fontType
