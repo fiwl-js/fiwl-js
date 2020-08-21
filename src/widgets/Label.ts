@@ -22,6 +22,7 @@ export default class Label extends DisplayObject {
   ];
   public static customContentsKey: string = "text";
   public static parseContents: (data: string) => string = parseTagContents;
+  public static writableContents: boolean = true;
 
   public text: string = "";
   public textSize: number | string = app.res.style.controlTextSize;
