@@ -5,6 +5,9 @@
   "main": "build/index.js",
   "module": "build/index.m.js",
   "types": "typing/index.d.ts",
+  "prettier": {
+    "tabWidth": 2
+  },
   "scripts": {
     "build": "webpack --config webpack/production.config.js",
     "postbuild": "cp -f build/fiwl.js development/fiwl.js && npm run clean-typing && echo && echo To start testing, please enter: npm run dev-open",

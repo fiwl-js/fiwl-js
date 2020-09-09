@@ -34,109 +34,109 @@ import TransparencyInstruct from './instructs/TransparencyInstruct';
 /** Provides widget developers some functions that instruct RenderEngine to draw something */
 export default class RenderAPI {
 
-    // Why singleton? Because RenderAPI need to be sent to all widgets'
-    // .draw() parameter, normal instance creation will crowds the memory
-    private static _instance:RenderAPI = null;
-    private constructor() {}
-    public static get api() {
-        if(RenderAPI._instance == null) RenderAPI._instance = new RenderAPI();
-        return RenderAPI._instance;
-    }
-    
-    crop(target:InstructTemplate, x:number, y:number, width:number, height:number):CropInstruct {
-        return new CropInstruct(target, x, y, width, height);
-    }
-    
-    bitmap(bitmap:ImageBitmap, x:number, y:number, width:number = NaN, height:number = NaN):DrawBitmapInstruct {
-        return new DrawBitmapInstruct(bitmap, x, y, width, height);
-    }
-    
-    text(text:string, x:number, y:number, size:number, colorHex:number, styles:string[] = [], font:Font = null, horizontalAlign:'left'|'center'|'right' = 'left'):DrawTextInstruct {
-        return new DrawTextInstruct(text, x, y, size, colorHex, styles, font, horizontalAlign);
-    }
-    
-    elevate(target:InstructTemplate, elevation:number, angle:number = 0):ElevateInstruct {
-        return new ElevateInstruct(target, elevation, angle);
-    }
-    
-    arc(x:number, y:number, radius:number, colorHex:number, startAngle:number, endAngle:number, stretchRatio:number = 1, isCounterClockwise:boolean = false):FillArcInstruct {
-        return new FillArcInstruct(x, y, radius, colorHex, startAngle, endAngle, stretchRatio, isCounterClockwise);
-    }
-    
-    ellipse(x:number, y:number, width:number, height:number, colorHex:number):FillEllipseInstruct {
-        return new FillEllipseInstruct(x, y, width, height, colorHex);
-    }
-    
-    path(colorHex:number, vertices:Array<VertexTemplate>, x:number = 0, y:number = 0, width:number = NaN, height:number = NaN):FillPathInstruct {
-        return new FillPathInstruct(colorHex, vertices, x, y, width, height);
-    }
-    
-    pie(x:number, y:number, radius:number, colorHex:number, startAngle:number, endAngle:number, isCounterClockwise:boolean = false):FillPieInstruct {
-        return new FillPieInstruct(x, y, radius, colorHex, startAngle, endAngle, isCounterClockwise);
-    }
-    
-    rect(x:number, y:number, width:number, height:number, colorHex:number):FillRectangleInstruct {
-        return new FillRectangleInstruct(x, y, width, height, colorHex);
-    }
-    
-    roundRect(x:number, y:number, width:number, height:number, colorHex:number, cornerRadius:number = 16):FillRoundRectangleInstruct {
-        return new FillRoundRectangleInstruct(x, y, width, height, colorHex, cornerRadius);
-    }
-    
-    gradientify(target:InstructTemplate, startX:number, startY:number, endX:number, endY:number, gradientPoints:Array<GradientPointTemplate>, isRadial:boolean = false):GradientifyInstruct {
-        return new GradientifyInstruct(target, startX, startY, endX, endY, gradientPoints, isRadial);
-    }
-    
-    group(instructions:Array<InstructTemplate>):GroupInstruct {
-        return new GroupInstruct(instructions);
-    }
-    
-    mask(target:InstructTemplate, mask:InstructTemplate, allowIntersectCut:boolean = false):MaskInstruct {
-        return new MaskInstruct(target, mask, allowIntersectCut);
-    }
-    
-    rotate(target:InstructTemplate, angle:number, x:number = 0, y:number = 0, width:number = NaN, height:number = NaN):RotateInstruct {
-        return new RotateInstruct(target, angle, x, y, width, height);
-    }
-    
-    scale(target:InstructTemplate, scaleX:number, scaleY:number, x:number = 0, y:number = 0, width:number = NaN, height:number = NaN):ScaleInstruct {
-        return new ScaleInstruct(target, scaleX, scaleY, x, y, width, height);
-    }
-    
-    shadow(target:InstructTemplate, colorHex:number, blur:number, offsetX:number, offsetY:number):ShadowInstruct {
-        return new ShadowInstruct(target, colorHex, blur, offsetX, offsetY);
-    }
-    
-    lineArc(x:number, y:number, radius:number, colorHex:number, startAngle:number, endAngle:number, thickness:number = 1, stretchRatio:number = 1, isCounterClockwise:boolean = false):StrokeArcInstruct {
-        return new StrokeArcInstruct(x, y, radius, colorHex, startAngle, endAngle, thickness, stretchRatio, isCounterClockwise);
-    }
-    
-    lineEllipse(x:number, y:number, width:number, height:number, colorHex:number, thickness:number = 1):StrokeEllipseInstruct {
-        return new StrokeEllipseInstruct(x, y, width, height, colorHex, thickness);
-    }
-    
-    linePath(colorHex:number, vertices:Array<VertexTemplate>, thickness:number = 1, x:number = 0, y:number = 0, width:number = NaN, height:number = NaN):StrokePathInstruct {
-        return new StrokePathInstruct(colorHex, vertices, thickness, x, y, width, height);
-    }
-    
-    linePie(x:number, y:number, radius:number, colorHex:number, startAngle:number, endAngle:number, thickness:number = 1, isCounterClockwise:boolean = false):StrokePieInstruct {
-        return new StrokePieInstruct(x, y, radius, colorHex, startAngle, endAngle, thickness, isCounterClockwise);
-    }
-    
-    lineRect(x:number, y:number, width:number, height:number, colorHex:number, thickness:number):StrokeRectangleInstruct {
-        return new StrokeRectangleInstruct(x, y, width, height, colorHex, thickness);
-    }
-    
-    lineRoundRect(x:number, y:number, width:number, height:number, colorHex:number, cornerRadius:number = 16, thickness:number = 1):StrokeRoundRectangleInstruct {
-        return new StrokeRoundRectangleInstruct(x, y, width, height, colorHex, cornerRadius, thickness);
-    }
-    
-    translate(target:InstructTemplate, deltaX:number, deltaY:number):TranslateInstruct {
-        return new TranslateInstruct(target, deltaX, deltaY);
-    }
-    
-    transparency(target:InstructTemplate, alpha:number):TransparencyInstruct {
-        return new TransparencyInstruct(target, alpha);
-    }
-    
+  // Why singleton? Because RenderAPI need to be sent to all widgets'
+  // .draw() parameter, normal instance creation will crowds the memory
+  private static _instance:RenderAPI = null;
+  private constructor() {}
+  public static get api() {
+    if(RenderAPI._instance == null) RenderAPI._instance = new RenderAPI();
+    return RenderAPI._instance;
+  }
+  
+  crop(target:InstructTemplate, x:number, y:number, width:number, height:number):CropInstruct {
+    return new CropInstruct(target, x, y, width, height);
+  }
+  
+  bitmap(bitmap:ImageBitmap, x:number, y:number, width:number = NaN, height:number = NaN):DrawBitmapInstruct {
+    return new DrawBitmapInstruct(bitmap, x, y, width, height);
+  }
+  
+  text(text:string, x:number, y:number, size:number, colorHex:number, styles:string[] = [], font:Font = null, horizontalAlign:"left" | "center" | "right" = "left"):DrawTextInstruct {
+    return new DrawTextInstruct(text, x, y, size, colorHex, styles, font, horizontalAlign);
+  }
+  
+  elevate(target:InstructTemplate, elevation:number, angle:number = 0):ElevateInstruct {
+    return new ElevateInstruct(target, elevation, angle);
+  }
+  
+  arc(x:number, y:number, radius:number, colorHex:number, startAngle:number, endAngle:number, stretchRatio:number = 1, isCounterClockwise:boolean = false):FillArcInstruct {
+    return new FillArcInstruct(x, y, radius, colorHex, startAngle, endAngle, stretchRatio, isCounterClockwise);
+  }
+  
+  ellipse(x:number, y:number, width:number, height:number, colorHex:number):FillEllipseInstruct {
+    return new FillEllipseInstruct(x, y, width, height, colorHex);
+  }
+  
+  path(colorHex:number, vertices:Array<VertexTemplate>, x:number = 0, y:number = 0, width:number = NaN, height:number = NaN):FillPathInstruct {
+    return new FillPathInstruct(colorHex, vertices, x, y, width, height);
+  }
+  
+  pie(x:number, y:number, radius:number, colorHex:number, startAngle:number, endAngle:number, isCounterClockwise:boolean = false):FillPieInstruct {
+    return new FillPieInstruct(x, y, radius, colorHex, startAngle, endAngle, isCounterClockwise);
+  }
+  
+  rect(x:number, y:number, width:number, height:number, colorHex:number):FillRectangleInstruct {
+    return new FillRectangleInstruct(x, y, width, height, colorHex);
+  }
+  
+  roundRect(x:number, y:number, width:number, height:number, colorHex:number, cornerRadius:number = 16):FillRoundRectangleInstruct {
+    return new FillRoundRectangleInstruct(x, y, width, height, colorHex, cornerRadius);
+  }
+  
+  gradientify(target:InstructTemplate, startX:number, startY:number, endX:number, endY:number, gradientPoints:Array<GradientPointTemplate>, isRadial:boolean = false):GradientifyInstruct {
+    return new GradientifyInstruct(target, startX, startY, endX, endY, gradientPoints, isRadial);
+  }
+  
+  group(instructions:Array<InstructTemplate>):GroupInstruct {
+    return new GroupInstruct(instructions);
+  }
+  
+  mask(target:InstructTemplate, mask:InstructTemplate, allowIntersectCut:boolean = false):MaskInstruct {
+    return new MaskInstruct(target, mask, allowIntersectCut);
+  }
+  
+  rotate(target:InstructTemplate, angle:number, x:number = 0, y:number = 0, width:number = NaN, height:number = NaN):RotateInstruct {
+    return new RotateInstruct(target, angle, x, y, width, height);
+  }
+  
+  scale(target:InstructTemplate, scaleX:number, scaleY:number, x:number = 0, y:number = 0, width:number = NaN, height:number = NaN):ScaleInstruct {
+    return new ScaleInstruct(target, scaleX, scaleY, x, y, width, height);
+  }
+  
+  shadow(target:InstructTemplate, colorHex:number, blur:number, offsetX:number, offsetY:number):ShadowInstruct {
+    return new ShadowInstruct(target, colorHex, blur, offsetX, offsetY);
+  }
+  
+  lineArc(x:number, y:number, radius:number, colorHex:number, startAngle:number, endAngle:number, thickness:number = 1, stretchRatio:number = 1, isCounterClockwise:boolean = false):StrokeArcInstruct {
+    return new StrokeArcInstruct(x, y, radius, colorHex, startAngle, endAngle, thickness, stretchRatio, isCounterClockwise);
+  }
+  
+  lineEllipse(x:number, y:number, width:number, height:number, colorHex:number, thickness:number = 1):StrokeEllipseInstruct {
+    return new StrokeEllipseInstruct(x, y, width, height, colorHex, thickness);
+  }
+  
+  linePath(colorHex:number, vertices:Array<VertexTemplate>, thickness:number = 1, x:number = 0, y:number = 0, width:number = NaN, height:number = NaN):StrokePathInstruct {
+    return new StrokePathInstruct(colorHex, vertices, thickness, x, y, width, height);
+  }
+  
+  linePie(x:number, y:number, radius:number, colorHex:number, startAngle:number, endAngle:number, thickness:number = 1, isCounterClockwise:boolean = false):StrokePieInstruct {
+    return new StrokePieInstruct(x, y, radius, colorHex, startAngle, endAngle, thickness, isCounterClockwise);
+  }
+  
+  lineRect(x:number, y:number, width:number, height:number, colorHex:number, thickness:number):StrokeRectangleInstruct {
+    return new StrokeRectangleInstruct(x, y, width, height, colorHex, thickness);
+  }
+  
+  lineRoundRect(x:number, y:number, width:number, height:number, colorHex:number, cornerRadius:number = 16, thickness:number = 1):StrokeRoundRectangleInstruct {
+    return new StrokeRoundRectangleInstruct(x, y, width, height, colorHex, cornerRadius, thickness);
+  }
+  
+  translate(target:InstructTemplate, deltaX:number, deltaY:number):TranslateInstruct {
+    return new TranslateInstruct(target, deltaX, deltaY);
+  }
+  
+  transparency(target:InstructTemplate, alpha:number):TransparencyInstruct {
+    return new TransparencyInstruct(target, alpha);
+  }
+  
 }

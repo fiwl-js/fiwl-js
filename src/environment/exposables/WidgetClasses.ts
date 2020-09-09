@@ -12,7 +12,7 @@ import ParamsTemplate from '../ParamsTemplate';
 
 /** Provides app developers preloaded widget classes */
 export default interface WidgetClasses {
-    Button:typeof Button;
+  Button:typeof Button;
 	DisplayObject:typeof DisplayObject;
 	Label:typeof Label;
 	Layout:typeof Layout;
@@ -22,22 +22,22 @@ export default interface WidgetClasses {
 export const name = 'widgets';
 
 export const bind = async (params:ParamsTemplate):Promise<WidgetClasses> => {
-    return Object.freeze({
-        'Button' : Button,
+  return Object.freeze({
+    'Button' : Button,
 		'DisplayObject' : DisplayObject,
 		'Label' : Label,
 		'Layout' : Layout,
 		'SeriesLayout' : SeriesLayout
-    });
+  });
 }
 
 // Required for /index.m.ts
 export const syncBind = (params?:ParamsTemplate):WidgetClasses => {
-    return Object.freeze({
-        'Button' : Button,
+  return Object.freeze({
+    'Button' : Button,
 		'DisplayObject' : DisplayObject,
 		'Label' : Label,
 		'Layout' : Layout,
 		'SeriesLayout' : SeriesLayout
-    });
+  });
 }

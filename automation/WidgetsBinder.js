@@ -1,40 +1,43 @@
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
 
 /**
  *  Build RenderAPI.ts based from /src/display/renderer/widgets/*
- *  
+ *
  *  @param {boolean} isVerbose
  */
 function WidgetsBinder(isVerbose = false) {
-    console.log('AUTOMATION: WidgetsBinder');
+  console.log("AUTOMATION: WidgetsBinder");
 
-    deleteOldFile();
-    
-    if(!isVerbose) console.log(' - Reading "./src/widgets/*.ts"');
-    const widgets = getAllWidgets(isVerbose);
+  deleteOldFile();
 
-    /** @type {Array<string>} */
-    const classNames = [];
-    for(let iter = 0; iter < widgets.length; iter++) {
-        const eachWidget = widgets[iter];
-        classNames.push(getClassName(eachWidget));
-    }
+  if (!isVerbose) console.log(' - Reading "./src/widgets/*.ts"');
+  const widgets = getAllWidgets(isVerbose);
 
-    console.log(' - Compiling WidgetClasses.ts');
-    const output = makeExposable(classNames);
+  /** @type {Array<string>} */
+  const classNames = [];
+  for (let iter = 0; iter < widgets.length; iter++) {
+    const eachWidget = widgets[iter];
+    classNames.push(getClassName(eachWidget));
+  }
 
-    console.log(' - Writting WidgetClasses.ts');
-    writeExposable(output);
+  console.log(" - Compiling WidgetClasses.ts");
+  const output = makeExposable(classNames);
 
-    console.log(" - Done!\n");
+  console.log(" - Writting WidgetClasses.ts");
+  writeExposable(output);
+
+  console.log(" - Done!\n");
 }
 
 function deleteOldFile() {
-    const filePath = path.resolve(__dirname, '../src/environment/exposables/WidgetClasses.ts');
-    if(fs.existsSync(filePath)) {
-        fs.unlinkSync(filePath);
-    }
+  const filePath = path.resolve(
+    __dirname,
+    "../src/environment/exposables/WidgetClasses.ts"
+  );
+  if (fs.existsSync(filePath)) {
+    fs.unlinkSync(filePath);
+  }
 }
 
 /**
@@ -42,61 +45,61 @@ function deleteOldFile() {
  *  @returns {Array<string>}
  */
 function getAllWidgets(isVerbose) {
-    const directoryPath = path.resolve(__dirname, '../src/widgets');
-    if(isVerbose) console.log(` - Mapping Directory "${directoryPath}"`);
+  const directoryPath = path.resolve(__dirname, "../src/widgets");
+  if (isVerbose) console.log(` - Mapping Directory "${directoryPath}"`);
 
-    const files = fs.readdirSync(directoryPath);
+  const files = fs.readdirSync(directoryPath);
 
-    /** @type {Array<string>} */
-    let result = []
-    for(let iter = 0; iter < files.length; iter++) {
-        const eachFileName = files[iter];
-        const eachFilePath = path.join(directoryPath, eachFileName);
-        if(isVerbose) console.log(` - Reading "${eachFilePath}"`);
-        const eachData = fs.readFileSync(eachFilePath, {encoding : 'utf-8'});
-        result.push(eachData);
-    }
-    
-    return result;
+  /** @type {Array<string>} */
+  let result = [];
+  for (let iter = 0; iter < files.length; iter++) {
+    const eachFileName = files[iter];
+    const eachFilePath = path.join(directoryPath, eachFileName);
+    if (isVerbose) console.log(` - Reading "${eachFilePath}"`);
+    const eachData = fs.readFileSync(eachFilePath, { encoding: "utf-8" });
+    result.push(eachData);
+  }
+
+  return result;
 }
 
 /**
- *  @param {string} widgetString 
+ *  @param {string} widgetString
  *  @returns {string}
  */
 function getClassName(widgetString) {
-    let prefix = 'export default class ';
-    let suffixChars = [' '];
-    let startPos = widgetString.indexOf(prefix);
-    if(startPos < 0) {
-        prefix = 'export default ';
-        startPos = widgetString.indexOf(prefix);
-        suffixChars = suffixChars.concat([';', "\r", "\n"]);
-    }
-    if(startPos < 0) {
-        throw new SyntaxError('No default class found');
-    }
-    startPos += prefix.length;
+  let prefix = "export default class ";
+  let suffixChars = [" "];
+  let startPos = widgetString.indexOf(prefix);
+  if (startPos < 0) {
+    prefix = "export default ";
+    startPos = widgetString.indexOf(prefix);
+    suffixChars = suffixChars.concat([";", "\r", "\n"]);
+  }
+  if (startPos < 0) {
+    throw new SyntaxError("No default class found");
+  }
+  startPos += prefix.length;
 
-    let result = '';
-    for(let iter = startPos; iter < widgetString.length; iter++) {
-        const eachChar = widgetString[iter];
-        if(suffixChars.includes(eachChar)) break;
-        result += eachChar
-    }
+  let result = "";
+  for (let iter = startPos; iter < widgetString.length; iter++) {
+    const eachChar = widgetString[iter];
+    if (suffixChars.includes(eachChar)) break;
+    result += eachChar;
+  }
 
-    return result;
+  return result;
 }
 
 /**
- *  @param {Array<string>} widgetClassNames 
+ *  @param {Array<string>} widgetClassNames
  *  @returns {string}
  */
 function makeExposable(widgetClassNames) {
-    const imports = makeImports(widgetClassNames);
-    const widgetTypes = bindToInterface(widgetClassNames);
-    const widgetDefinitions = bindToEnvironment(widgetClassNames);
-    return `${imports}
+  const imports = makeImports(widgetClassNames);
+  const widgetTypes = bindToInterface(widgetClassNames);
+  const widgetDefinitions = bindToEnvironment(widgetClassNames);
+  return `${imports}
 import ParamsTemplate from '../ParamsTemplate';
 
 // WARNING: This file is auto-generated, DO NOT TOUCH!
@@ -105,80 +108,83 @@ import ParamsTemplate from '../ParamsTemplate';
 
 /** Provides app developers preloaded widget classes */
 export default interface WidgetClasses {
-    ${widgetTypes}
+  ${widgetTypes}
 }
 
 export const name = 'widgets';
 
 export const bind = async (params:ParamsTemplate):Promise<WidgetClasses> => {
-    return Object.freeze({
-        ${widgetDefinitions}
-    });
+  return Object.freeze({
+    ${widgetDefinitions}
+  });
 }
 
 // Required for /index.m.ts
 export const syncBind = (params?:ParamsTemplate):WidgetClasses => {
-    return Object.freeze({
-        ${widgetDefinitions}
-    });
+  return Object.freeze({
+    ${widgetDefinitions}
+  });
 }`;
 }
 
 /**
- *  @param {Array<string>} widgetClassNames 
+ *  @param {Array<string>} widgetClassNames
  *  @returns {string}
  */
 function makeImports(widgetClassNames) {
-    let result = '';
+  let result = "";
 
-    for(let iter = 0; iter < widgetClassNames.length; iter++) {
-        const eachName = widgetClassNames[iter];
-        result += `import ${eachName} from '../../widgets/${eachName}';\r\n`;
-    }
+  for (let iter = 0; iter < widgetClassNames.length; iter++) {
+    const eachName = widgetClassNames[iter];
+    result += `import ${eachName} from '../../widgets/${eachName}';\r\n`;
+  }
 
-    return result;
+  return result;
 }
 
 /**
- *  @param {Array<string>} widgetClassNames 
+ *  @param {Array<string>} widgetClassNames
  *  @returns {string}
  */
 function bindToInterface(widgetClassNames) {
-    let result = '';
+  let result = "";
 
-    for(let iter = 0; iter < widgetClassNames.length; iter++) {
-        const eachName = widgetClassNames[iter];
-        result += `${eachName}:typeof ${eachName};`;
-        if(iter < widgetClassNames.length-1) {
-            result += "\r\n\t";
-        }
+  for (let iter = 0; iter < widgetClassNames.length; iter++) {
+    const eachName = widgetClassNames[iter];
+    result += `${eachName}:typeof ${eachName};`;
+    if (iter < widgetClassNames.length - 1) {
+      result += "\r\n\t";
     }
+  }
 
-    return result;
+  return result;
 }
 
 /**
- *  @param {Array<string>} widgetClassNames 
+ *  @param {Array<string>} widgetClassNames
  *  @returns {string}
  */
 function bindToEnvironment(widgetClassNames) {
-    let result = '';
+  let result = "";
 
-    for(let iter = 0; iter < widgetClassNames.length; iter++) {
-        const eachName = widgetClassNames[iter];
-        result += `'${eachName}' : ${eachName}`;
-        if(iter < widgetClassNames.length-1) {
-            result += ",\r\n\t\t";
-        }
+  for (let iter = 0; iter < widgetClassNames.length; iter++) {
+    const eachName = widgetClassNames[iter];
+    result += `'${eachName}' : ${eachName}`;
+    if (iter < widgetClassNames.length - 1) {
+      result += ",\r\n\t\t";
     }
+  }
 
-    return result;
+  return result;
 }
 
 /** @param {string} data */
 function writeExposable(data) {
-    const filePath = path.resolve(__dirname, '../src/environment/exposables/WidgetClasses.ts');
-    fs.writeFileSync(filePath, data, {encoding : 'utf-8'});
+  const filePath = path.resolve(
+    __dirname,
+    "../src/environment/exposables/WidgetClasses.ts"
+  );
+  fs.writeFileSync(filePath, data, { encoding: "utf-8" });
 }
 
 module.exports = WidgetsBinder;
