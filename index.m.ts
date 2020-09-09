@@ -1,3 +1,7 @@
+/**
+ *  Same as index.ts but special for Typescript workspace
+**/
+
 import { syncBind as bindWidgets } from './src/environment/exposables/WidgetClasses';
 
 export { default as boot } from './src/boot';
