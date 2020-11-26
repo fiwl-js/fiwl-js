@@ -1,4 +1,4 @@
-<Stage title="Todo App" description="wwww">
+<Stage title="Friends Quotes App" description="Sample app for FIWL which displays quotes from the TV show Friends.">
     <SeriesLayout orientation="vertical">
         <Label
             width="container"
@@ -51,7 +51,6 @@
     </SeriesLayout>
     <event on="ready">
         this.layout.findContent('get_quote').onSelect = (eventData) => {
-            console.log(this)
             console.log(app)
         }
     </event>
