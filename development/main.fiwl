@@ -7,7 +7,9 @@
             paddings="16dp"
             textSize="@style/titleTextSize"
             textColor="@style/onPrimaryColor"
-            backgroundColor="@style/primaryColor"/>
+            backgroundColor="@style/primaryColor"
+            bold="true"
+            italic="true"/>
         <Layout
             width="container"
             height="400dp"

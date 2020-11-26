@@ -1,0 +1,15 @@
+name: Contributors
+on:
+  schedule:
+    - cron: */60 * * * *  # Every 60 minutes or 1 hour
+  push:
+    branches:
+      - master
+jobs:
+  contributors:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: bubkoo/contributors-list@v1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          svgPath: CONTRIBUTORS.svg
