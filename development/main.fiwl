@@ -1,34 +1,33 @@
-<Stage title="FIWL App Test - Welcome!">
+<Stage title="Todo App" description="wwww">
     <SeriesLayout orientation="vertical">
         <Label
             width="container"
             height="content"
-            text="Welcome!"
+            text="Random Friends Quote"
             paddings="16dp"
             textSize="@style/titleTextSize"
             textColor="@style/onPrimaryColor"
-            backgroundColor="@style/primaryColor"
-            elevation="8dp"/>
+            backgroundColor="@style/primaryColor"/>
         <Layout
             width="container"
-            height="100%"
-            backgroundColor="@color/transparent"
+            height="400dp"
             alignContents="center">
             <SeriesLayout
                 width="80%"
                 height="75%"
                 backgroundColor="@color/white"
                 cornerRadius="16dp"
-                elevation="8dp"
+                elevation="18dp"
                 alignContents="center"
                 paddings="16dp">
-                <Label
+                <Text
                     width="container"
                     height="content"
                     alignText="center"
+                    bold="true"
                     textSize="@style/displayTextSize">
                     This is a FIWL Demonstration
-                </Label>
+                </Text>
                 <DisplayObject
                     width="container"
                     height="2dp"
@@ -38,20 +37,22 @@
                     width="container"
                     height="content"
                     alignText="center"
+                    id="target_quote"
                     textSize="@style/displayTextSize"
                     fontType="DancingScript-Regular">
-                    Cool isn't it?
+                    
                 </Label>
             </SeriesLayout>
         </Layout>
-        <Button id="next_button"
-            text="Let's Go!"
+        <Button id="get_quote"
+            text="Get Quote"
             alignSelf="center"
             margins="32dp"/>
     </SeriesLayout>
     <event on="ready">
-        this.layout.findContent('next_button').onSelect = (eventData) => {
-            setTimeout(() => alert('it is works!'), 250);
+        this.layout.findContent('get_quote').onSelect = (eventData) => {
+            console.log(this)
+            console.log(app)
         }
     </event>
 </Stage>

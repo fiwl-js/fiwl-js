@@ -40,6 +40,18 @@ export default function interactStage(
           },
         });
         break;
+      case "description":
+        // @ts-ignore
+        let currentDesc: string = passiveStage[eachKey];
+        Object.defineProperty(stageInstance, eachKey, {
+          get: (): string => {
+            return currentDesc;
+          },
+          set: (newValue: string): void => {
+            currentDesc = newValue;
+          },
+        });
+        break;
       default:
         // @ts-ignore
         stageInstance[eachKey] = passiveStage[eachKey];

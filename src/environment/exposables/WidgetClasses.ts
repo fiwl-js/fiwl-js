@@ -3,6 +3,7 @@ import DisplayObject from '../../widgets/DisplayObject';
 import Label from '../../widgets/Label';
 import Layout from '../../widgets/Layout';
 import SeriesLayout from '../../widgets/SeriesLayout';
+import Text from '../../widgets/Text';
 
 import ParamsTemplate from '../ParamsTemplate';
 
@@ -17,6 +18,7 @@ export default interface WidgetClasses {
 	Label:typeof Label;
 	Layout:typeof Layout;
 	SeriesLayout:typeof SeriesLayout;
+	Text:typeof Text;
 }
 
 export const name = 'widgets';
@@ -27,7 +29,8 @@ export const bind = async (params:ParamsTemplate):Promise<WidgetClasses> => {
 		'DisplayObject' : DisplayObject,
 		'Label' : Label,
 		'Layout' : Layout,
-		'SeriesLayout' : SeriesLayout
+		'SeriesLayout' : SeriesLayout,
+		'Text' : Text
   });
 }
 
@@ -38,6 +41,7 @@ export const syncBind = (params?:ParamsTemplate):WidgetClasses => {
 		'DisplayObject' : DisplayObject,
 		'Label' : Label,
 		'Layout' : Layout,
-		'SeriesLayout' : SeriesLayout
+		'SeriesLayout' : SeriesLayout,
+		'Text' : Text
   });
 }

@@ -28,6 +28,7 @@ export default class RenderEngine {
             document.body.style.margin = '0';
             document.body.style.padding = '0';
             document.body.style.overflow = 'hidden';
+            document.body.style.outline = 'none';
             this.outputElement.style.position = 'absolute';
             this.outputElement.style.top = '0';
             this.outputElement.style.left = '0';

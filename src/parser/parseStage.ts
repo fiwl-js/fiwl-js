@@ -30,6 +30,7 @@ export default function parseStage(stringData: string): Object {
 
   const stage: any = {};
   stage.title = null;
+  stage.description = null;
 
   const rawProps = rawObject.attributes;
   for (let iter = 0; iter < rawProps.length; iter++) {
@@ -177,5 +178,10 @@ function fixScriptEvent(input: string): string {
     }
   }
 
+  // Add a FIWL attribute to the global window object
+  (<any>window).FIWL = {
+    USES_FIWL: true,
+    PARSED: output
+  };
   return output;
 }

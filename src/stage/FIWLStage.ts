@@ -14,5 +14,5 @@ export default class FIWLStage implements PassiveStage {
   public onSuspend = (): void => {};
   public onDestroy = (): void => {};
   public title?: string;
-  public description?: string; // TODO: Make this working
+  public description?: string;
 }

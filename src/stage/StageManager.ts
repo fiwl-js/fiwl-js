@@ -172,6 +172,10 @@ async function activate() {
     document.title = stage.title;
   }
 
+  if (typeof stage.description != "string") {
+    stage.description = app.manifest.description
+  }
+
   EventManager.attachRootLayout(stage.layout);
 
   currentStatus = StageStatus.ACTIVE;
