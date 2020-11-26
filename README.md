@@ -1,7 +1,7 @@
 ![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat)
 ![GitHub Repo stars](https://img.shields.io/github/stars/fiwl-js/fiwl-js)
 
-![](FIWL.png)
+![](FIWL_banner.png)
 
 # FIWL.js vPre-Alpha
 
