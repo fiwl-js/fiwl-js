@@ -2,3 +2,4 @@ build
 /development/fiwl.js
 node_modules
 typing
+.vscode
