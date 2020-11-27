@@ -4,6 +4,7 @@ import ManifestInterface from "./exposables/ManifestInterface";
 import ResourceInterface from "./exposables/ResourceInterface";
 import DisplayInterface from "./exposables/DisplayInterface";
 import UnitConversionInterface from "./exposables/UnitConversionInterface";
+import StorageInterface from "./exposables/StorageInterface";
 import EventInterface from "./exposables/EventInterface";
 import WidgetClasses from "./exposables/WidgetClasses";
 
@@ -20,6 +21,7 @@ export default class FIWLApplication {
   public res: ResourceInterface;
   public display: DisplayInterface;
   public unit: UnitConversionInterface;
+  public storage: StorageInterface;
   public event: EventInterface;
   public widgets: WidgetClasses;
 
@@ -35,6 +37,7 @@ export default class FIWLApplication {
       "res",
       "display",
       "unit",
+      "storage",
       "event",
       "widgets",
     ]);
@@ -55,6 +58,6 @@ export default class FIWLApplication {
   }
 
   async goto(route: string): Promise<void> {
-    //
+    // TODO: Route to another stage
   }
 }
