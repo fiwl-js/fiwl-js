@@ -42,7 +42,6 @@
                     id="target_quote"
                     textSize="@style/displayTextSize"
                     fontType="DancingScript-Regular">
-                    
                 </Label>
             </SeriesLayout>
         </Layout>
@@ -53,7 +52,10 @@
     </SeriesLayout>
     <event on="ready">
         this.layout.findContent('get_quote').onSelect = (eventData) => {
-            app.storage.add('name', 'Johhhnny')
+            console.log(this.layout)
+            app.net.get('https://friends-quotes-api.herokuapp.com/quotes/random')
+                .then(res => this.layout.findContent('target_quote').text = res.quote)
+                .catch(err => console.log(err))
         }
     </event>
 </Stage>
