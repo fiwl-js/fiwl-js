@@ -1,4 +1,5 @@
 import Button from '../../widgets/Button';
+import Checkbox from '../../widgets/Checkbox';
 import DisplayObject from '../../widgets/DisplayObject';
 import Label from '../../widgets/Label';
 import Layout from '../../widgets/Layout';
@@ -14,6 +15,7 @@ import ParamsTemplate from '../ParamsTemplate';
 /** Provides app developers preloaded widget classes */
 export default interface WidgetClasses {
   Button:typeof Button;
+	Checkbox:typeof Checkbox;
 	DisplayObject:typeof DisplayObject;
 	Label:typeof Label;
 	Layout:typeof Layout;
@@ -26,6 +28,7 @@ export const name = 'widgets';
 export const bind = async (params:ParamsTemplate):Promise<WidgetClasses> => {
   return Object.freeze({
     'Button' : Button,
+		'Checkbox' : Checkbox,
 		'DisplayObject' : DisplayObject,
 		'Label' : Label,
 		'Layout' : Layout,
@@ -38,6 +41,7 @@ export const bind = async (params:ParamsTemplate):Promise<WidgetClasses> => {
 export const syncBind = (params?:ParamsTemplate):WidgetClasses => {
   return Object.freeze({
     'Button' : Button,
+		'Checkbox' : Checkbox,
 		'DisplayObject' : DisplayObject,
 		'Label' : Label,
 		'Layout' : Layout,
