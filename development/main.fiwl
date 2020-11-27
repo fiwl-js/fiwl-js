@@ -52,7 +52,6 @@
     </SeriesLayout>
     <event on="ready">
         this.layout.findContent('get_quote').onSelect = (eventData) => {
-            console.log(this.layout)
             app.net.get('https://friends-quotes-api.herokuapp.com/quotes/random')
                 .then(res => this.layout.findContent('target_quote').text = res.quote)
                 .catch(err => console.log(err))

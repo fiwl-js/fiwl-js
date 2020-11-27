@@ -60,4 +60,17 @@ export default class FIWLApplication {
   async goto(route: string): Promise<void> {
     // TODO: Route to another stage
   }
+
+  /**
+   * 
+   * @param {string} action The action to be performed | values = 'read' or 'write'
+   */
+  clipboard(action: string, data?: string): Promise<string | void> | Error {
+    if (action == 'read') return navigator.clipboard.readText().then(text => text);
+    else if (action == 'write') {
+      if (data) return navigator.clipboard.writeText(data);
+      else return new ReferenceError('Data arguement is null. Data should be a non-null string.')
+    }
+    else return new TypeError('Please provide a valid action, read or write.');
+  }
 }
