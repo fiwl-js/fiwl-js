@@ -11,8 +11,4 @@ See [documentation](https://fiwl-js.github.io/docs/) for further information.
 
 ## Contributors
 
-<a href="https://github.com/fiwl-js/fiwl-js/graphs/contributors">
-  <img src="https://contributors-img.web.app/image?repo=fiwl-js/fiwl-js" />
-</a>
-
-Made with [contributors-img](https://contributors-img.web.app).
+![](CONTRIBUTORS.svg)
