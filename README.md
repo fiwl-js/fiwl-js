@@ -1,7 +1,7 @@
-![](FIWL_banner.png)
-
 ![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat)
 ![GitHub Repo stars](https://img.shields.io/github/stars/fiwl-js/fiwl-js)
+
+![](FIWL_banner.png)
 
 FIWL (Flexible Interactive Web Layout) extends XML standard, mainly purposed for arranging web app layout as efficient as possible.
 
