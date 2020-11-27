@@ -22,7 +22,7 @@ export default class Checkbox extends Label {
       EventTypes.SELECT,
       (eventData: MouseEventData) => {
         this.checked = !this.checked;
-        if (this.checked) this.text = '✔️';
+        if (this.checked) this.text = '✔️'; // ! Change this to use Stroke Path API instead of text
         else {
           this.text = '';
           this.backgroundColor = app.res.style.onSecondaryColor;
