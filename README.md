@@ -35,7 +35,7 @@
   
 <a href="https://fiwl-js.github.io/docs/">
 <img
-      src="https://img.shields.io/badge/Documentation-jsdoc-blue?style=for-the-badge"
+      src="https://img.shields.io/badge/Documentation-Docasaurus-blue?style=for-the-badge"
       alt="View Documentation"
     >
 </a>
