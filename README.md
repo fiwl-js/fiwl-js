@@ -32,6 +32,14 @@
       alt="MIT License"
     >
 </a>
+  
+<a href="https://fiwl-js.github.io/docs/">
+<img
+      src="https://img.shields.io/badge/Documentation-jsdoc-blue?style=for-the-badge"
+      alt="View Documentation"
+    >
+</a>
+
 <a href="https://prettier.io/">
 <img
       src="https://img.shields.io/badge/code_style-prettier-ff47bc.svg?style=for-the-badge" 
