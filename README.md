@@ -12,3 +12,7 @@ See [documentation](https://fiwl-js.github.io/docs/) for further information.
 ## Contributors
 
 ![](CONTRIBUTORS.svg)
+
+## Support Us
+
+[![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/K3K32SUK2)
