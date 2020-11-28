@@ -59,8 +59,11 @@ function request(
       networkAPI.setRequestHeader(key, value);
     });
 
-    // Tell the server this request came from fiwl.js, not browser's URL box.
-    networkAPI.setRequestHeader("Is-Resource", "true");
+    // Check if currently accessing origin server
+    if (!url.startsWith("http")) {
+      // Tell the server this request came from fiwl.js, not browser's URL box.
+      networkAPI.setRequestHeader("Is-Resource", "true");
+    }
 
     switch (method) {
       case Method.GET:
