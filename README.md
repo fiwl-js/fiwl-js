@@ -142,7 +142,6 @@ http://localhost:8080/
 
 ![](CONTRIBUTORS.svg)
 
-Made with [contributors-img](https://contributors-img.web.app).
 
 ## Love FIWL?
 
