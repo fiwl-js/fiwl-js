@@ -2,7 +2,6 @@
   <img src="/BANNER.png" alt="Banner">
 </p>
 
-<h1 align="center">FIWL JS</h1>
 <p align="center">
   FIWL (Flexible Interactive Web Layout) extends XML standard, mainly purposed for arranging web app layout as efficient as possible.
 </p>
