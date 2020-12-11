@@ -16,6 +16,8 @@ export default class PointingEventDispatcher implements DispatcherTemplate {
   //private dragMoveListeners:ListenerTemplate[];
   //private dragEndListeners:ListenerTemplate[];
 
+  private pressedAtTarget: DisplayObject[] = [];
+
   attach(
     viewportInstance: HTMLCanvasElement,
     listenerMap: Map<EventTypes, ListenerTemplate[]>
@@ -31,14 +33,26 @@ export default class PointingEventDispatcher implements DispatcherTemplate {
   }
 
   start(): void {
+    this.viewportInstance.addEventListener("mousedown", this.onMousePress);
     this.viewportInstance.addEventListener("mouseup", this.onMouseRelease);
+    this.viewportInstance.addEventListener("touchstart", this.onTouchStart);
     this.viewportInstance.addEventListener("touchend", this.onTouchEnd);
   }
 
   stop(): void {
+    this.viewportInstance.removeEventListener("mousedown", this.onMousePress);
     this.viewportInstance.removeEventListener("mouseup", this.onMouseRelease);
+    this.viewportInstance.removeEventListener("touchstart", this.onTouchStart);
     this.viewportInstance.removeEventListener("touchend", this.onTouchEnd);
   }
+
+  private onMousePress = (domEventData: MouseEvent): void => {
+    if (domEventData.button != 0) return;
+    this.aimSelect(
+      domEventData.clientX,
+      domEventData.clientY,
+    )
+  };
 
   private onMouseRelease = (domEventData: MouseEvent): void => {
     if (domEventData.button != 0) return;
@@ -47,6 +61,15 @@ export default class PointingEventDispatcher implements DispatcherTemplate {
       domEventData.clientY,
       domEventData
     );
+  };
+
+  private onTouchStart = (domEventData: TouchEvent): void => {
+    domEventData.preventDefault();
+    const currentTouch = domEventData.changedTouches[0];
+    this.aimSelect(
+      currentTouch.clientX,
+      currentTouch.clientY,
+    )
   };
 
   private onTouchEnd = (domEventData: TouchEvent): void => {
@@ -59,15 +82,43 @@ export default class PointingEventDispatcher implements DispatcherTemplate {
     );
   };
 
+  private aimSelect(
+    x: number,
+    y: number,
+  ): void {
+    if(this.selectListeners.length == 0) return;
+
+    // @ts-ignore
+    if (app.display) {
+      // @ts-ignore
+      x *= app.display.scale;
+      // @ts-ignore
+      y *= app.display.scale;
+    }
+
+    for (let iter = 0; iter < this.selectListeners.length; iter++) {
+      const eachListener = this.selectListeners[iter];
+      const target = eachListener.target;
+      if (target instanceof DisplayObject) {
+        if (EventManager.isInTarget(target, x, y)) {
+          this.pressedAtTarget.push(target);
+        }
+      }
+    }
+  }
+
   private triggerSelect(
     x: number,
     y: number,
     domEventData: MouseEvent | TouchEvent
   ): void {
-    if (this.triggerSelect.length == 0) return;
+    if(this.selectListeners.length == 0) return;
 
+    // @ts-ignore
     if (app.display) {
+      // @ts-ignore
       x *= app.display.scale;
+      // @ts-ignore
       y *= app.display.scale;
     }
 
@@ -89,12 +140,12 @@ export default class PointingEventDispatcher implements DispatcherTemplate {
       const eachListener = this.selectListeners[iter];
       const target = eachListener.target;
       if (target instanceof DisplayObject) {
-        if (EventManager.isInTarget(target, x, y)) {
+        if (EventManager.isInTarget(target, x, y) && this.pressedAtTarget.includes(target)) {
           eachListener.func.call(target, { ...eventData, target: target });
         }
-      } else {
-        eachListener.func({ ...eventData });
       }
     }
+
+    this.pressedAtTarget = [];
   }
 }
