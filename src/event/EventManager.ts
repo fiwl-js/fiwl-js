@@ -24,40 +24,6 @@ function attachDOM(viewportInstance: HTMLCanvasElement): void {
   }
 }
 
-function attachRootLayout(instance: Layout): void {
-  // TODO: Complete this...
-  addEventListener(EventTypes.SELECT, (eventData) =>
-    triggerSelect(instance, eventData)
-  );
-}
-
-function triggerSelect(instance: DisplayObject, eventData: DataTemplate): void {
-  let selectListener: Function = null;
-
-  switch (typeof instance.onSelect) {
-    case "function":
-      selectListener = instance.onSelect;
-      break;
-    case "string":
-      selectListener = new Function(instance.onSelect);
-      break;
-  }
-
-  if (selectListener != null) {
-    let pointingEventData = eventData as PointingEventData;
-    if (isInTarget(instance, pointingEventData.x, pointingEventData.y)) {
-      selectListener.call(instance, pointingEventData);
-    }
-  }
-
-  if (instance instanceof Layout) {
-    for (let iter = 0; iter < instance.length; iter++) {
-      const eachContent = instance.contents[iter];
-      triggerSelect(eachContent, eventData);
-    }
-  }
-}
-
 function resetListenerMap(): void {
   for (const eachType in EventTypes) {
     // @ts-ignore
@@ -119,7 +85,6 @@ function isInTarget(target: DisplayObject, x: number, y: number): boolean {
 
 export default {
   attachDOM: attachDOM,
-  attachRootLayout: attachRootLayout,
   resetListenerMap: resetListenerMap,
   startDispatchers: startDispatchers,
   stopDispatchers: stopDispatchers,

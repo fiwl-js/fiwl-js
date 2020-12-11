@@ -105,15 +105,6 @@ export default class DisplayObject {
 
   public onDraw: () => void = null;
   public onUpdate: () => void = null;
-  public onSelect: (eventData: PointingEventData) => void = null;
-  public onOption: (eventData: PointingEventData) => void = null;
-  public onScroll: (eventData: PointingEventData) => void = null;
-  public onDragStart: (eventData: PointingEventData) => void = null;
-  public onDragMove: (eventData: PointingEventData) => void = null;
-  public onDragEnd: (eventData: PointingEventData) => void = null;
-  public onHoverStart: (eventData: PointingEventData) => void = null;
-  public onHoverMove: (eventData: PointingEventData) => void = null;
-  public onHoverEnd: (eventData: PointingEventData) => void = null;
   public onAsyncCreate: () => Promise<void> = null;
   public onReady: () => void = null;
   public onSuspend: () => void = null;

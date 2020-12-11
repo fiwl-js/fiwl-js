@@ -176,8 +176,6 @@ async function activate() {
     stage.description = app.manifest.description
   }
 
-  EventManager.attachRootLayout(stage.layout);
-
   currentStatus = StageStatus.ACTIVE;
   callWidgetsOnReady(stage.layout);
   triggerListener(stage.onReady, stage);
