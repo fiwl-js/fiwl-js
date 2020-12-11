@@ -51,10 +51,10 @@
             margins="32dp"/>
     </SeriesLayout>
     <event on="ready">
-        this.layout.findContent('get_quote').onSelect = (eventData) => {
+        this.layout.findContent('get_quote').addEventListener("select", (eventData) => {
             app.net.get('https://friends-quotes-api.herokuapp.com/quotes/random')
                 .then(res => alert(res))
                 .catch(err => console.log(err))
-        }
+        })
     </event>
 </Stage>
