@@ -81,7 +81,7 @@ git clone https://github.com/Thor-x86/fiwl-quickstart
 #### Start your favorite IDE
 
 Now you can choose fiwl-quickstart as project directory for your IDE. If you are using VSCode, enter this command:
-code ./fiwl-quickstart
+`code ./fiwl-quickstart`
 
 The **fiwl.js** script emulates FIWL environment for HTML5 standard.
 
