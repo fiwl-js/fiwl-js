@@ -100,7 +100,7 @@ Change default appearance of widgets. It's optional, but really useful if you ha
 `manifest.json` :
 Inform overall app information. Including app name, app description, metadata for SEO, custom first entrance, custom resource directory, and more.
 
-To understand `main.fiwl`, go [here](https://fiwl-js.github.io/docs/intro/how_to_use#understanding-mainfiwl).
+To understand the base FIWL files, go [here](https://fiwl-js.github.io/docs/how_to_use).
 
 ## Running the App
 
