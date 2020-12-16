@@ -15,7 +15,8 @@
     "dev-open": "webpack-dev-server --config webpack/development.config.js --open",
     "test-deprecation": "node --trace-deprecation node_modules/.bin/webpack --config webpack/production.config.js && npm run clean-typing",
     "analyze": "webpack --config webpack/analyze.config.js",
-    "clean-typing": "rm -f typing/fiwl.d.ts typing/index.d.ts && mv -f typing/index.m.d.ts typing/index.d.ts"
+    "clean-typing": "rm -f typing/fiwl.d.ts typing/index.d.ts && mv -f typing/index.m.d.ts typing/index.d.ts",
+    "cypress:open": "cypress open"
   },
   "repository": {
     "type": "git",
