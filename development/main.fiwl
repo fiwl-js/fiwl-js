@@ -35,17 +35,16 @@
                     height="2dp"
                     backgroundColor="@color/darkGrey"
                     marginVertical="16dp"/>
-                <Label
-                    width="container"
-                    height="content"
-                    alignText="center"
-                    id="target_quote"
-                    textSize="@style/displayTextSize"
-                    fontType="DancingScript-Regular">
-                </Label>
+                <Button
+                    id='target_quote'
+                    width='container'
+                    text='ok'
+                    textSize='@style/titleTextSize'
+                />
             </SeriesLayout>
         </Layout>
-        <Button id="get_quote"
+        <Button 
+            id="get_quote"
             text="Get Quote"
             alignSelf="center"
             margins="32dp"/>
@@ -53,7 +52,7 @@
     <event on="ready">
         this.layout.findContent('get_quote').addEventListener("select", (eventData) => {
             app.net.get('https://friends-quotes-api.herokuapp.com/quotes/random')
-                .then(res => alert(res))
+                .then(res => console.log(this.layout.findContent('target_quote').text))
                 .catch(err => console.log(err))
         })
     </event>
