@@ -23,8 +23,11 @@ async function attachRenderer(params: ParamsTemplate): Promise<void> {
     window.addEventListener("resize", () => render());
   }
 
-  await startBootAnim(app.manifest.splash);
-  constantLoop = true;
+  if (app.manifest.splash) {
+    await startBootAnim(app.manifest.splash);
+    constantLoop = true;
+  }
+
   requestAnimationFrame(render);
 }
 
@@ -69,13 +72,15 @@ async function nextStage(newStage: FIWLStage): Promise<void> {
     scaleY: 1,
   };
 
+  layers.unshift(newStageLayer);
+
   if (findLayer("boot") != null) {
     newStageLayer.tag = "stage";
-    layers.unshift(newStageLayer);
     await stopBootAnim();
   } else {
     const oldStage = findLayer("stage");
     // Transition here...
+    render()
   }
 }
 
