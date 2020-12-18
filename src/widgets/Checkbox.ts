@@ -116,8 +116,8 @@ export default class Checkbox extends DisplayObject {
         {x: box_x + (lineSize*2),           y: box_y + (boxSize/2)           },
         {x: box_x + (boxSize/2) - lineSize, y: box_y + boxSize - (lineSize*2)},
         {
-          x: box_x + (boxSize * tickmarkOpacity) - (lineSize*2),
-          y: box_y + (lineSize*2) + (boxSize * (1-tickmarkOpacity))
+          x: box_x + (boxSize * ((tickmarkOpacity/2)+0.5)) - (lineSize*(tickmarkOpacity+1)),
+          y: box_y + (boxSize * (1-((tickmarkOpacity/1.5)+0.25))) + (lineSize*2*tickmarkOpacity)
         }
       ]
       let tickmark = api.linePath(

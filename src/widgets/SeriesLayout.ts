@@ -23,7 +23,7 @@ import DisplayObject from "./DisplayObject";
  *     If not, please google "parts of fraction".
  *  5. Calculate denominator of all relative contents width:
  *     denominator = b.width + d.width
- *  6. The nominator part is depend on which relative content that you are currently resolve.
+ *  6. The numerator part is depend on which relative content that you are currently resolve.
  *     measureEachContentWidth('b') = freeSpace * (b.width / denominator)
  *     measureEachContentWidth('d') = freeSpace * (d.width / denominator)
  *  7. For any content with "container" width (in this case 'c' content),
