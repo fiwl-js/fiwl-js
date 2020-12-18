@@ -151,8 +151,8 @@ export default class SeriesLayout extends Layout {
       switch (this.orientation) {
         case "horizontal":
           let contentOuterHeight = contentOffset;
-          contentOuterHeight = contentHeight;
-          contentOuterHeight = contentMarginTop + contentMarginBottom;
+          contentOuterHeight += contentHeight;
+          contentOuterHeight += contentMarginTop + contentMarginBottom;
           result = Math.max(result, contentOuterHeight);
           break;
         case "vertical":
