@@ -7,6 +7,7 @@ import UnitConversionInterface from "./exposables/UnitConversionInterface";
 import StorageInterface from "./exposables/StorageInterface";
 import EventInterface from "./exposables/EventInterface";
 import WidgetClasses from "./exposables/WidgetClasses";
+import ClipboardInterface from "./exposables/ClipboardInterface";
 
 import FIWLStage from "../stage/FIWLStage";
 
@@ -22,6 +23,7 @@ export default class FIWLApplication {
   public display: DisplayInterface;
   public unit: UnitConversionInterface;
   public storage: StorageInterface;
+  public clipboard: ClipboardInterface;
   public event: EventInterface;
   public widgets: WidgetClasses;
 
@@ -38,6 +40,7 @@ export default class FIWLApplication {
       "display",
       "unit",
       "storage",
+      "clipboard",
       "event",
       "widgets",
     ]);
@@ -59,18 +62,5 @@ export default class FIWLApplication {
 
   async goto(route: string): Promise<void> {
     // TODO: Route to another stage
-  }
-
-  /**
-   * 
-   * @param {string} action The action to be performed | values = 'read' or 'write'
-   */
-  clipboard(action: string, data?: string): Promise<string | void> | Error {
-    if (action == 'read') return navigator.clipboard.readText().then(text => text);
-    else if (action == 'write') {
-      if (data) return navigator.clipboard.writeText(data);
-      else return new ReferenceError('Data arguement is null. Data should be a non-null string.')
-    }
-    else return new TypeError('Please provide a valid action, read or write.');
   }
 }
