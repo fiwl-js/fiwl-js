@@ -35,10 +35,8 @@
                     height="2dp"
                     backgroundColor="@color/darkGrey"
                     marginVertical="16dp"/>
-                <Button
-                    id='target_quote'
-                    width='container'
-                    text='ok'
+                <Label
+                    text='hey'
                     textSize='@style/titleTextSize'
                 />
             </SeriesLayout>
@@ -50,10 +48,10 @@
             margins="32dp"/>
     </SeriesLayout>
     <event on="ready">
-        this.layout.findContent('get_quote').addEventListener("select", (eventData) => {
+        /*this.layout.findContent('get_quote').addEventListener("select", (eventData) => {
             app.net.get('https://friends-quotes-api.herokuapp.com/quotes/random')
                 .then(res => console.log(this.layout.findContent('target_quote').text))
                 .catch(err => console.log(err))
-        })
+        })*/
     </event>
 </Stage>
