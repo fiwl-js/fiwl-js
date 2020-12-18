@@ -151,8 +151,8 @@ export default class SeriesLayout extends Layout {
       switch (this.orientation) {
         case "horizontal":
           let contentOuterHeight = contentOffset;
-          contentOuterHeight = contentHeight;
-          contentOuterHeight = contentMarginTop + contentMarginBottom;
+          contentOuterHeight += contentHeight;
+          contentOuterHeight += contentMarginTop + contentMarginBottom;
           result = Math.max(result, contentOuterHeight);
           break;
         case "vertical":
@@ -205,10 +205,10 @@ export default class SeriesLayout extends Layout {
                 paddingRight
             );
             const denominator = calculateDenominator(this, "x");
-            const nominator = parseFloat(
+            const numerator = parseFloat(
               targetWidth.substr(0, targetWidth.length - 1)
             );
-            return Math.max(0, (freeSpace * nominator) / denominator);
+            return Math.max(0, (freeSpace * numerator) / denominator);
           }
         }
 
@@ -251,10 +251,10 @@ export default class SeriesLayout extends Layout {
                 paddingBottom
             );
             const denominator = calculateDenominator(this, "y");
-            const nominator = parseFloat(
+            const numerator = parseFloat(
               targetHeight.substr(0, targetHeight.length - 1)
             );
-            return Math.max(0, (freeSpace * nominator) / denominator);
+            return Math.max(0, (freeSpace * numerator) / denominator);
           }
         }
 

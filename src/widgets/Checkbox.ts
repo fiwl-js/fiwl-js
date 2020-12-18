@@ -1,9 +1,7 @@
 import { EventTypes } from "../event/EventTypesEnum";
-import MouseEventData from "../event/data/MouseEventData";
 import RenderAPI from "../display/renderer/RenderAPI";
 import DisplayObject from "./DisplayObject";
 import InstructTemplate from "../display/renderer/templates/InstructTemplate";
-import StrokePathInstruct from "../display/renderer/instructs/StrokePathInstruct";
 import VertexTemplate from "../display/renderer/templates/VertexTemplate";
 
 // Private properties //
@@ -13,6 +11,7 @@ const priv_unhoverListener: WeakMap<Checkbox, () => void> = new WeakMap();
 const priv_targetHoverOpacity: WeakMap<Checkbox, number> = new WeakMap();
 const priv_currentHoverOpacity: WeakMap<Checkbox, number> = new WeakMap();
 const priv_tickmarkOpacity: WeakMap<Checkbox, number> = new WeakMap();
+const priv_lastChecked: WeakMap<Checkbox, boolean> = new WeakMap();
 
 export default class Checkbox extends DisplayObject {
   public checked = false;
@@ -29,6 +28,7 @@ export default class Checkbox extends DisplayObject {
 
     priv_selectListener.set(this, () => {
       this.checked = !this.checked;
+      priv_lastChecked.set(this, this.checked);
       priv_animateTickmark(this);
     });
 
@@ -47,6 +47,7 @@ export default class Checkbox extends DisplayObject {
     priv_targetHoverOpacity.set(this, 0);
     priv_currentHoverOpacity.set(this, 0);
     priv_tickmarkOpacity.set(this, 0);
+    priv_lastChecked.set(this, false);
   }
 
   ready(): void {
@@ -129,6 +130,13 @@ export default class Checkbox extends DisplayObject {
       let groupedTick = api.group([tickBg, tickmark]);
       let fadingTick = api.transparency(groupedTick, tickmarkOpacity);
       instructs.push(fadingTick);
+    }
+
+    // Update tickmark animation when change state without user interaction
+    const lastChecked = priv_lastChecked.get(this);
+    if (lastChecked != this.checked) {
+      priv_animateTickmark(this);
+      priv_lastChecked.set(this, this.checked);
     }
 
     return this.drawPostEffect(api, instructs);
