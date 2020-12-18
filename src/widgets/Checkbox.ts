@@ -1,9 +1,7 @@
 import { EventTypes } from "../event/EventTypesEnum";
-import MouseEventData from "../event/data/MouseEventData";
 import RenderAPI from "../display/renderer/RenderAPI";
 import DisplayObject from "./DisplayObject";
 import InstructTemplate from "../display/renderer/templates/InstructTemplate";
-import StrokePathInstruct from "../display/renderer/instructs/StrokePathInstruct";
 import VertexTemplate from "../display/renderer/templates/VertexTemplate";
 
 // Private properties //
