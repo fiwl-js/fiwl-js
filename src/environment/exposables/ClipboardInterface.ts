@@ -18,7 +18,7 @@ export default interface ClipboardInterface {
     write: (data: string) => Promise<void>;
 }
 
-export const name = "storage";
+export const name = "clipboard";
 
 export const bind = async (
     params: ParamsTemplate
