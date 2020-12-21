@@ -6,6 +6,13 @@ import RenderAPI from "../display/renderer/RenderAPI";
 import InstructTemplate from "../display/renderer/templates/InstructTemplate";
 
 const priv_ripples: WeakMap<Button, Ripple[]> = new WeakMap();
+const priv_hoverListener: WeakMap<Button, () => void> = new WeakMap();
+const priv_unhoverListener: WeakMap<Button, () => void> = new WeakMap();
+const priv_pressListener: WeakMap<Button, (eventData: PointingEventData) => void> = new WeakMap();
+const priv_releaseListener: WeakMap<Button, () => void> = new WeakMap();
+const priv_targetHoverOpacity: WeakMap<Button, number> = new WeakMap();
+const priv_currentHoverOpacity: WeakMap<Button, number> = new WeakMap();
+const priv_isPressing: WeakMap<Button, boolean> = new WeakMap();
 
 export default class Button extends Label {
   public rippleColor: number = 0xdf000000;
@@ -18,55 +25,76 @@ export default class Button extends Label {
     this.elevation = "8dp";
     this.textColor = app.res.style.onSecondaryColor;
     this.backgroundColor = app.res.style.secondaryColor;
+    
     priv_ripples.set(this, []);
-  }
+    priv_targetHoverOpacity.set(this, 0);
+    priv_currentHoverOpacity.set(this, 0);
 
-  ready(): void {
-    // Change cursor on hover:
-    this.addEventListener(
-      EventTypes.MOUSE_HOVER_START,
-      (eventData: MouseEventData) => {
-        app.display.setCursor("clickable");
-      }
-    );
-    this.addEventListener(
-      EventTypes.MOUSE_HOVER_END,
-      (eventData: MouseEventData) => {
-        app.display.setCursor("default");
-      }
-    );
+    priv_hoverListener.set(this, () => {
+      priv_targetHoverOpacity.set(this, 0.5);
+      priv_animateHover(this);
+      app.display.setCursor("clickable");
+    })
 
-    // Start ripple animation:
-    const animateRipple = (ripple: Ripple) => {
-      if (ripple.r < ripple.rMax) {
-        ripple.r += 8 * app.display.scale;
-      } else {
-        ripple.r = ripple.rMax;
-      }
+    priv_unhoverListener.set(this, () => {
+      priv_targetHoverOpacity.set(this, 0);
+      priv_animateHover(this);
+      app.display.setCursor("default");
 
-      if (ripple.frame > 30) {
-        ripple.alpha = 1 - (ripple.frame - 30) / 30;
+      // Continue animate last ripple
+      priv_isPressing.set(this, false);
+      const rippleArray = priv_ripples.get(this)
+      if(rippleArray.length > 0) {
+        priv_animateRipple(this, rippleArray[rippleArray.length-1])
       }
+    })
 
-      this.requestUpdate();
-
-      if (ripple.frame < 60) {
-        ripple.frame++;
-        requestAnimationFrame(() => animateRipple(ripple));
+    priv_pressListener.set(this, (eventData: PointingEventData) => {
+      const rippleArray = priv_ripples.get(this)
+      
+      // Update "isLastRipple" property on previous last ripple
+      if(rippleArray.length > 0) {
+        rippleArray[rippleArray.length-1].isLastRipple = false;
       }
-    };
-    this.addEventListener(EventTypes.SELECT, (eventData: PointingEventData) => {
+      
+      // Create new ripple
       const ripple: Ripple = {
         x: eventData.x,
         y: eventData.y,
         r: 0,
-        rMax: calculateRMax(this, eventData.x, eventData.y),
+        rMax: priv_calculateRMax(this, eventData.x, eventData.y),
         alpha: 1,
         frame: 0,
+        isLastRipple: true
       };
-      priv_ripples.get(this).push(ripple);
-      requestAnimationFrame(() => animateRipple(ripple));
+      rippleArray.push(ripple);
+      
+      // Update state
+      priv_isPressing.set(this, true);
+      priv_animateRipple(this, ripple);
     });
+
+    priv_releaseListener.set(this, () => {
+      priv_isPressing.set(this, false);
+      const rippleArray = priv_ripples.get(this);
+      if(rippleArray.length > 0) {
+        priv_animateRipple(this, rippleArray[rippleArray.length-1])
+      }
+    })
+  }
+
+  ready(): void {
+    this.addEventListener(EventTypes.MOUSE_HOVER_START, priv_hoverListener.get(this));
+    this.addEventListener(EventTypes.MOUSE_HOVER_END, priv_unhoverListener.get(this));
+    this.addEventListener(EventTypes.MOUSE_LEFT_PRESS, priv_pressListener.get(this));
+    this.addEventListener(EventTypes.MOUSE_LEFT_RELEASE, priv_releaseListener.get(this));
+  }
+
+  suspend(): void {
+    this.removeEventListener(EventTypes.MOUSE_HOVER_START, priv_hoverListener.get(this));
+    this.removeEventListener(EventTypes.MOUSE_HOVER_END, priv_unhoverListener.get(this));
+    this.removeEventListener(EventTypes.MOUSE_LEFT_PRESS, priv_pressListener.get(this));
+    this.removeEventListener(EventTypes.MOUSE_LEFT_RELEASE, priv_releaseListener.get(this));
   }
 
   drawBackground(api: RenderAPI): InstructTemplate[] {
@@ -74,6 +102,16 @@ export default class Button extends Label {
 
     const background = api.group(super.drawBackground(api));
     renderList.push(background);
+
+    const x = this.globalX;
+    const y = this.globalY;
+    const width = this.measuredWidth;
+    const height = this.measuredHeight;
+    const hoverOpacity = priv_currentHoverOpacity.get(this);
+
+    const hover = api.rect(x, y, width, height, this.rippleColor);
+    const translucentHover = api.transparency(hover, hoverOpacity);
+    renderList.push(translucentHover);
 
     const ripples = priv_ripples.get(this);
     for (let iter = 0; iter < ripples.length; iter++) {
@@ -109,9 +147,72 @@ interface Ripple {
   rMax: number;
   alpha: number;
   frame: number;
+  isLastRipple: boolean;
 }
 
-function calculateRMax(instance: Button, x: number, y: number): number {
+/**
+ *  @private
+ *  Animate hover effect
+ */
+function priv_animateHover(instance: Button): void {
+  // Making sure priv_animateHover(...) not executed in parallel
+  const internal = Button.internal.get(instance);
+  if(!isNaN(internal.hoverAnimationID)) {
+    window.cancelAnimationFrame(internal.hoverAnimationID);
+    internal.hoverAnimationID = NaN;
+  }
+
+  const currentOpacity = priv_currentHoverOpacity.get(instance);
+  const targetOpacity = priv_targetHoverOpacity.get(instance);
+
+  if (Math.round(currentOpacity*1000)/1000 != Math.round(targetOpacity*1000)/1000) {
+    const newOpacity = currentOpacity + ((targetOpacity - currentOpacity) / 16);
+    priv_currentHoverOpacity.set(instance, newOpacity);
+    internal.hoverAnimationID = window.requestAnimationFrame(() => priv_animateHover(instance));
+  } else {
+    priv_currentHoverOpacity.set(instance, targetOpacity);
+  }
+
+  Button.internal.set(instance, internal);
+  instance.requestUpdate();
+}
+
+/**
+ *  @private
+ *  Animate ripple effect
+ */
+function priv_animateRipple(instance: Button, ripple: Ripple) {
+  if (ripple.r < ripple.rMax) {
+    ripple.r += 8 * app.display.scale;
+  } else {
+    ripple.r = ripple.rMax;
+  }
+
+  if (ripple.frame > 30) {
+    ripple.alpha = 1 - (ripple.frame - 30) / 30;
+  }
+
+  // Update the instance
+  instance.requestUpdate();
+
+  // Calculate last frame based on "isPressing" and "isLastFrame"
+  let lastFrame = 60;
+  const isPressing = priv_isPressing.get(instance);
+  if (isPressing && ripple.isLastRipple) {
+    lastFrame = 30;
+  }
+
+  if (ripple.frame < lastFrame) {
+    ripple.frame++;
+    requestAnimationFrame(() => priv_animateRipple(instance, ripple));
+  }
+}
+
+/**
+ *  @private
+ *  Calculate biggest radius possible for ripple circle
+ */
+function priv_calculateRMax(instance: Button, x: number, y: number): number {
   const globalX = instance.globalX;
   const globalY = instance.globalY;
   const measuredWidth = instance.measuredWidth;
