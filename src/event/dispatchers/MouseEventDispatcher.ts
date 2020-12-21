@@ -102,9 +102,13 @@ export default class MouseEventDispatcher implements DispatcherTemplate {
     if (listeners.length == 0) return;
 
     let posX = domEventData.clientX;
-    let posY = domEventData.clientX;
+    let posY = domEventData.clientY;
+
+    // @ts-ignore
     if (app.display) {
+      // @ts-ignore
       posX *= app.display.scale;
+      // @ts-ignore
       posY *= app.display.scale;
     }
 
@@ -144,8 +148,11 @@ export default class MouseEventDispatcher implements DispatcherTemplate {
   private triggerMove = (domEventData: MouseEvent): void => {
     let posX = domEventData.clientX;
     let posY = domEventData.clientY;
+    // @ts-ignore
     if (app.display) {
+      // @ts-ignore
       posX *= app.display.scale;
+      // @ts-ignore
       posY *= app.display.scale;
     }
 
@@ -256,9 +263,12 @@ export default class MouseEventDispatcher implements DispatcherTemplate {
     this.updateButtonState(domEventData.buttons);
 
     let posX = domEventData.clientX;
-    let posY = domEventData.clientX;
+    let posY = domEventData.clientY;
+    // @ts-ignore
     if (app.display) {
+      // @ts-ignore
       posX *= app.display.scale;
+      // @ts-ignore
       posY *= app.display.scale;
     }
 
@@ -389,9 +399,12 @@ export default class MouseEventDispatcher implements DispatcherTemplate {
     if (this.scrollListeners.length == 0) return;
 
     let posX = domEventData.clientX;
-    let posY = domEventData.clientX;
+    let posY = domEventData.clientY;
+    // @ts-ignore
     if (app.display) {
+      // @ts-ignore
       posX *= app.display.scale;
+      // @ts-ignore
       posY *= app.display.scale;
     }
 
