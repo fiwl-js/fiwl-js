@@ -67,7 +67,15 @@
 
 ## Installation
 
-Quickstart boilerplate is already provided on a github repository. To use that, please follow these steps:
+The recommended way of installing FIWL is to use the `create-fiwl-app` cli which you can install from NPM. To install the cli run the command given below:
+
+```bash
+npm i create-fiwl-app -g
+```
+
+Then run the command, `npx create-fiwl-app <your_app_name>` to create a new FIWL application.
+
+Quickstart boilerplate is also provided on a github repository. To use that, please follow these steps:
 
 #### Prepare your bash environment
 
