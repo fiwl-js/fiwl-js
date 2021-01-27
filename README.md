@@ -67,15 +67,13 @@
 
 ## Installation
 
-The recommended way of installing FIWL is to use the `create-fiwl-app` cli which you can install from NPM. To install the cli run the command given below:
+The recommended way of starting your FIWL project is by running the command:
 
-```bash
-npm i create-fiwl-app -g
+```
+npx create-fiwl-app <your_app_name>
 ```
 
-Then run the command, `npx create-fiwl-app <your_app_name>` to create a new FIWL application.
-
-Quickstart boilerplate is also provided on a github repository. To use that, please follow these steps:
+A quickstart boilerplate is also provided on a github repository. To use that, please follow these steps:
 
 #### Prepare your bash environment
 
