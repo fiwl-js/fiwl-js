@@ -153,7 +153,3 @@ http://localhost:8080/
 A donation is very much appreciated and helpful for our growth.
 
 [![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/K3K32SUK2)
-
----
-
-_README file created by [Brayden W](https://braydentw.github.io)_
